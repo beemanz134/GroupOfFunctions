@@ -49,7 +49,7 @@ fn temperature_converter() {
         let mut input = String::new();
         println!("press 1 for fahrenheit -> celsius");
         println!("press 2 for celsius -> fahrenheit");
-        println!("press 0 to exit the program");
+        println!("press 0 to return to main menu");
         io::stdin()
             .read_line(&mut input)
             .expect("Failed to read line");
