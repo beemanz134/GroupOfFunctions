@@ -1,4 +1,5 @@
 mod tempConverter;
+mod guessGame;
 
 use std::io;
 
@@ -27,8 +28,8 @@ fn main() {
         };
 
         match num {
-            1 => temperature_converter(), // No need to check for exit
-            2 => println!("2"),
+            1 => temperature_converter_controller(), // No need to check for exit
+            2 => guess_controller(),
             3 => println!("3"),
             4 => println!("4"),
             5 => println!("5"),
@@ -44,7 +45,7 @@ fn main() {
     }
 }
 
-fn temperature_converter() {
+fn temperature_converter_controller() {
     loop {
         let mut input = String::new();
         println!("press 1 for fahrenheit -> celsius");
@@ -69,4 +70,29 @@ fn temperature_converter() {
             _ => println!("unrecognized value"),
         }
     }
+}
+fn guess_controller() {
+    loop {
+        let mut input = String::new();
+        println!("press 1 to start");
+        println!("press 0 to return to main menu");
+        io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+
+        let num: u8 = match input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("number not recognized");
+                continue;
+            }
+        };
+
+        match num{
+            1 => guessGame::start(),
+            0 => break,
+            _ => println!("unrecognized value"),
+        }
+    };
+
 }
