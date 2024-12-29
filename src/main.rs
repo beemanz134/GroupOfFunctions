@@ -127,8 +127,12 @@ fn list_controller() {
             2 => if let Err(e) = list_worker::addItem(){
                 eprint!("error showing list: {}", e);
             },
-            3 => list_worker::updateItem(),
-            4 => list_worker::deleteItem(), //delete by item number
+            3 => if let Err(e) = list_worker::updateItem(){
+                eprint!("error showing list: {}", e);
+            },
+            4 => if let Err(e) = list_worker::deleteItem(){ //delete by item number
+                eprint!("error showing list: {}", e);
+            },
             0 => break,
             _ => println!("unrecognized value"),
         }
