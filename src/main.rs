@@ -1,7 +1,9 @@
 mod tempConverter;
 mod guessGame;
+mod list_worker;
 
 use std::io;
+use std::env;
 
 fn main() {
     loop {
@@ -30,7 +32,7 @@ fn main() {
         match num {
             1 => temperature_converter_controller(), // No need to check for exit
             2 => guess_controller(),
-            3 => println!("3"),
+            3 => list_controller(),
             4 => println!("4"),
             5 => println!("5"),
             6 => println!("6"),
@@ -95,4 +97,40 @@ fn guess_controller() {
         }
     };
 
+}
+
+fn list_controller() {
+    loop {
+        let mut input = String::new();
+        println!("press 1 to show list");
+        println!("press 2 to add new item to  list");
+        println!("press 3 to update item in list");
+        println!("press 4 to delete item in list");
+        println!("press 0 to return to main menu");
+
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+
+        let num: u8 = match input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Number not recognized");
+                continue;
+            }
+        };
+
+        match num {
+            1 => if let Err(e) = list_worker::showList(){
+                eprint!("error showing list: {}", e);
+            },
+            2 => if let Err(e) = list_worker::addItem(){
+                eprint!("error showing list: {}", e);
+            },
+            3 => list_worker::updateItem(),
+            4 => list_worker::deleteItem(), //delete by item number
+            0 => break,
+            _ => println!("unrecognized value"),
+        }
+    }
 }
