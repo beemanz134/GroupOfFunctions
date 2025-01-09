@@ -1,8 +1,10 @@
 mod tempConverter;
 mod guessGame;
 mod list_worker;
+mod fileSizeConverter;
 
 use std::io;
+
 use std::env;
 
 fn main() {
@@ -33,7 +35,7 @@ fn main() {
             1 => temperature_converter_controller(), // No need to check for exit
             2 => guess_controller(),
             3 => list_controller(),
-            4 => println!("4"),
+            4 => file_size_converter(),
             5 => println!("5"),
             6 => println!("6"),
             7 => println!("7"),
@@ -138,3 +140,41 @@ fn list_controller() {
         }
     }
 }
+
+fn file_size_converter() {
+    loop {
+        let mut input = String::new();
+        println!("press 1 to compress");
+        println!("press 2 to decompress");
+        println!("press 0 to return to main menu");
+
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read line");
+        let num: u8 = match input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Number not recognized");
+                continue;
+            }
+        };
+
+        match num {
+            1 => {
+                match fileSizeConverter::compressFile() {
+                    Ok(_) => println!("Successfully compressed"),
+                    Err(e) => eprintln!("Error compressing: {}", e),
+                }
+            },
+            2 => {
+                match fileSizeConverter::deCompressFile() {
+                    Ok(_) => println!("Successfully uncompressed"),
+                    Err(e) => eprintln!("Error decompressing: {}", e),
+                }
+            },
+            0 => break,
+            _ => println!("Unrecognized value"),
+        }
+    }
+}
+

@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 random-number = "0.1.9"
+zip = "2.2.2"

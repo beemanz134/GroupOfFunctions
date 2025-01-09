@@ -77,10 +77,10 @@ pub fn deleteItem()-> io::Result<()>{
     let mut line = String::new();
     println!("what line would you like to delete?");
     io::stdin().read_line(&mut line).expect("Failed to read line");
-    let line_num: usize = line.trim().parse().expect("Please enter a valid number") - 1;
+    let line_num: usize = line.trim().parse::<usize>().expect("Please enter a valid number") - 1;
 
     let fpath: PathBuf = Path::new("storage/ToDo.txt").to_path_buf();
-    let mut items = read_txt()?;
+    let items = read_txt()?;
     if line_num >= items.len() {
         println!("Line number {} is out of bounds. Please enter a number between 1 and {}.", line_num, items.len() - 1);
         return Ok(());
