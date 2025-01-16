@@ -2,6 +2,8 @@ mod tempConverter;
 mod guessGame;
 mod list_worker;
 mod fileSizeConverter;
+mod jsonWorker;
+mod do_webcrawler;
 
 use std::io;
 
@@ -14,8 +16,8 @@ fn main() {
         println!("press 2 for guessing game ");
         println!("press 3 for a todo list ");
         println!("press 4 for compress decompression file tool ");
-        println!("press 5 for read and write to json ");
-        println!("press 6 for a web crawler ");
+        println!("press 5 for read and write to json *******CANCLLED************"); //*******CANCLLED************ not sure scope or usecase
+        println!("press 6 for a web crawler (note: only grabs a links can be altered to grab other things) ");
         println!("press 7 for file encryption/decryption ");
         println!("press 8 for a http server ");
         println!("press 0 to exit");
@@ -36,8 +38,8 @@ fn main() {
             2 => guess_controller(),
             3 => list_controller(),
             4 => file_size_converter(),
-            5 => println!("5"),
-            6 => println!("6"),
+            5 => println!("5"), //cancelled json converter
+            6 => webcrawler(),
             7 => println!("7"),
             8 => println!("8"),
             0 => {
@@ -178,3 +180,33 @@ fn file_size_converter() {
     }
 }
 
+pub fn json_converter() {
+    loop {
+        let mut input = String::new();
+        println!("press 1 to serialize to json");
+        println!("press 2 to deserialize");
+        println!("press 0 to exit");
+
+        io::stdin()
+        .read_line(&mut input)
+        .expect("Failed to read line");
+        let num: u8 = match input.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Number not recognized");
+                continue;
+            }
+        };
+
+        match num {
+            1 => jsonWorker::to_json(),
+            2 => jsonWorker::from_json(),
+            0 => break,
+            _ => println!("Unrecognized value"),
+        }
+    }
+}
+
+pub fn webcrawler() {
+    do_webcrawler::start();
+}
