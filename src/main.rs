@@ -4,6 +4,7 @@ mod list_worker;
 mod fileSizeConverter;
 mod jsonWorker;
 mod do_webcrawler;
+mod fileSecret;
 
 use std::io;
 
@@ -40,7 +41,7 @@ fn main() {
             4 => file_size_converter(),
             5 => println!("5"), //cancelled json converter
             6 => webcrawler(),
-            7 => println!("7"),
+            7 => fileSecret(),
             8 => println!("8"),
             0 => {
                 println!("Exiting the program");
@@ -209,4 +210,41 @@ pub fn json_converter() {
 
 pub fn webcrawler() {
     do_webcrawler::start();
+}
+
+pub fn fileSecret() {
+    loop {
+        let mut input = String::new();
+        println!("press 1 to encrypt a file");
+        println!("press 2 to decrypt a file");
+        println!("press 0 to return to main menu");
+        io::stdin().read_line(&mut input).expect("Failed to read input");
+        let num: u8 = match input.trim().parse(){
+            Ok(num) => num,
+            Err(_) => {
+                println!("failed num input");
+                continue;
+            }
+        };
+
+        match num{
+            1 => {
+                match fileSecret::file_encrypt()
+                {
+                    Ok(_) => println!("Successfully encrypted"),
+                    Err(e) => eprintln!("Error encrypting: {}", e),
+                }
+            },
+            2 => println!("Successfully decrypted"),
+            //     {
+            //     match fileSecret::file_decrypt()
+            //     {
+            //         Ok(_) => println!("Successfully encrypted"),
+            //         Err(e) => eprintln!("Error encrypting: {}", e),
+            //     }
+            // },
+            0 => break,
+            _ => println!("invalid entry")
+        }
+    }
 }
