@@ -13,7 +13,7 @@ pub fn file_encrypt() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Enter file to encrypt:");
     io::stdin().read_line(&mut input).expect("Failed to read line");
-    input = input.trim_matches('"').trim().to_string();
+    input = input.trim().trim_matches('"').to_string();
 
     println!("Enter a secret code to use as passphrase:");
     io::stdin().read_line(&mut key).expect("Failed to read line");
@@ -21,7 +21,7 @@ pub fn file_encrypt() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Enter destination to output encrypted file:");
     io::stdin().read_line(&mut output).expect("Failed to read line");
-    output = output.trim_matches('"').trim().to_string();
+    output = output.trim().trim_matches('"').to_string();
 
     if let Err(e) = fs::metadata(&input) {
         eprintln!("Error accessing input file '{}': {}", input, e);
@@ -56,7 +56,7 @@ pub fn file_decrypt()  -> Result<(), Box<dyn std::error::Error>>{
 
     println!("Enter file to decrypt:");
     io::stdin().read_line(&mut input).expect("Failed to read line");
-    input = input.trim_matches ('"').trim().to_string();
+    input = input.trim().trim_matches('"').to_string();
 
     println!("Enter the secret code:");
     io::stdin().read_line(&mut key).expect("Failed to read line");
@@ -64,7 +64,7 @@ pub fn file_decrypt()  -> Result<(), Box<dyn std::error::Error>>{
 
     println!("Enter destination to output decrypted file:");
     io::stdin().read_line(&mut output).expect("Failed to read line");
-    output = output.trim_matches ('"').trim().to_string();
+    output = output.trim().trim_matches('"').to_string();
 
     if let Err(e) = fs::metadata(&input) {
         eprintln!("Error accessing input file '{}': {}", input, e);
