@@ -5,6 +5,7 @@ mod fileSizeConverter;
 mod jsonWorker;
 mod do_webcrawler;
 mod fileSecret;
+mod aServer;
 
 use std::io;
 
@@ -42,7 +43,7 @@ fn main() {
             5 => println!("5"), //cancelled json converter
             6 => webcrawler(),
             7 => fileSecret(),
-            8 => println!("8"),
+            8 => startServer(),
             0 => {
                 println!("Exiting the program");
                 break; // Breaks out of the outer loop
@@ -246,4 +247,8 @@ pub fn fileSecret() {
             _ => println!("invalid entry")
         }
     }
+}
+
+pub fn startServer() {
+    aServer::start();
 }
