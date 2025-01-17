@@ -1,5 +1,4 @@
 use age::{Encryptor, Decryptor};
-use age::scrypt::Identity;
 use secrecy::SecretString;
 use std::{fs, io};
 use std::io::Write;
@@ -36,11 +35,15 @@ pub fn file_encrypt() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    if let Err(e) = encrypt(&input, &output, &key) {
+    let input_file_name = path::Path::new(&input).file_name().unwrap().to_str().unwrap();
+    let encrypted_file_name = format!("{}.age", input_file_name);
+    let encrypted_file_path = output_path.join(encrypted_file_name);
+
+    if let Err(e) = encrypt(&input, encrypted_file_path.to_str().unwrap(), &key) {
         eprintln!("An error occurred while encrypting '{}' because '{}'", input, e);
         return Err(e);
     } else {
-        println!("Successfully encrypted file to '{}'", output);
+        println!("Successfully encrypted file to '{}'", encrypted_file_path.display());
         Ok(())
     }
 }
@@ -58,6 +61,9 @@ fn encrypt(source_file: &str, output: &str, key: &str) -> Result<(), Box<dyn std
     let data = fs::read(source_file)?;
     let passphrase = SecretString::from(key.to_owned());
     let encryptor = Encryptor::with_user_passphrase(passphrase);
+
+    println!("Attempting to create output file at: {}", output);
+
     let output_file = fs::File::create(output)?;
     let mut writer = encryptor.wrap_output(output_file)?;
     writer.write_all(&data)?;
