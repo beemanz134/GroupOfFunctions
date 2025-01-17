@@ -5,6 +5,8 @@ use std::io::Write;
 use std::path;
 
 
+// just input path ex: "c/user/asd/fileORfolder" and output destination
+
 pub fn file_encrypt() -> Result<(), Box<dyn std::error::Error>> {
     let mut input = String::new();
     let mut output = String::new();
@@ -12,7 +14,7 @@ pub fn file_encrypt() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Enter file to encrypt:");
     io::stdin().read_line(&mut input).expect("Failed to read line");
-    input = input.trim().to_string();
+    input = input.trim_matches('"').trim().to_string();
 
     println!("Enter a secret code to use as passphrase:");
     io::stdin().read_line(&mut key).expect("Failed to read line");
@@ -20,7 +22,7 @@ pub fn file_encrypt() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Enter destination to output encrypted file:");
     io::stdin().read_line(&mut output).expect("Failed to read line");
-    output = output.trim().to_string();
+    output = output.trim_matches('"').trim().to_string();
 
     if let Err(e) = fs::metadata(&input) {
         eprintln!("Error accessing input file '{}': {}", input, e);
