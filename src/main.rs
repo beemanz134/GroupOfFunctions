@@ -235,14 +235,13 @@ pub fn fileSecret() {
                     Err(e) => eprintln!("Error encrypting: {}", e),
                 }
             },
-            2 => println!("Successfully decrypted"),
-            //     {
-            //     match fileSecret::file_decrypt()
-            //     {
-            //         Ok(_) => println!("Successfully encrypted"),
-            //         Err(e) => eprintln!("Error encrypting: {}", e),
-            //     }
-            // },
+            2 => {
+                match fileSecret::file_decrypt()
+                {
+                    Ok(_) => println!("Successfully encrypted"),
+                    Err(e) => eprintln!("Error decrypting: {}", e),
+                }
+            },
             0 => break,
             _ => println!("invalid entry")
         }
